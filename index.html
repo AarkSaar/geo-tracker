@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,15 +16,20 @@
           <input id="auth-email" type="email" placeholder="Email Address" />
           <input id="auth-password" type="password" placeholder="Password" />
           <div class="remember-row">
-            <label><input type="checkbox" id="remember-me" /> Remember Me</label>
+            <label
+              ><input type="checkbox" id="remember-me" /> Remember Me</label
+            >
           </div>
           <div id="auth-error" class="error-msg hidden"></div>
           <button id="btn-login" class="btn-primary">Login</button>
-          <p class="hint">Admin: admin@geo.com / admin123 &nbsp;|&nbsp; Employee: user@geo.com / user123</p>
+          <p class="hint">
+            Admin: admin@geo.com / admin123 &nbsp;|&nbsp; Student: user@geo.com
+            / user123
+          </p>
         </div>
       </div>
 
-      <!-- EMPLOYEE DASHBOARD -->
+      <!-- STUDENT DASHBOARD -->
       <div id="screen-dashboard" class="screen">
         <header>
           <span class="logo-sm">📍 GeoTrack</span>
@@ -69,7 +74,12 @@
           </div>
           <table id="attendance-table">
             <thead>
-              <tr><th>Employee</th><th>Clock In</th><th>Clock Out</th><th>Duration</th></tr>
+              <tr>
+                <th>Student</th>
+                <th>Clock In</th>
+                <th>Clock Out</th>
+                <th>Duration</th>
+              </tr>
             </thead>
             <tbody id="attendance-body"></tbody>
           </table>
