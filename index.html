@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeoTrack — Geofence Time Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- AUTH SCREEN -->
+      <div id="screen-auth" class="screen active">
+        <div class="auth-card">
+          <div class="logo">📍 GeoTrack</div>
+          <p class="tagline">Geofence-Based Time Tracking</p>
+          <input id="auth-email" type="email" placeholder="Email Address" />
+          <input id="auth-password" type="password" placeholder="Password" />
+          <div class="remember-row">
+            <label><input type="checkbox" id="remember-me" /> Remember Me</label>
+          </div>
+          <div id="auth-error" class="error-msg hidden"></div>
+          <button id="btn-login" class="btn-primary">Login</button>
+          <p class="hint">Admin: admin@geo.com / admin123 &nbsp;|&nbsp; Employee: user@geo.com / user123</p>
+        </div>
+      </div>
+
+      <!-- EMPLOYEE DASHBOARD -->
+      <div id="screen-dashboard" class="screen">
+        <header>
+          <span class="logo-sm">📍 GeoTrack</span>
+          <span id="user-name-header"></span>
+          <button id="btn-logout" class="btn-ghost">Logout</button>
+        </header>
+
+        <div class="map-area">
+          <canvas id="geo-canvas" width="420" height="240"></canvas>
+          <div id="sim-controls">
+            <label>Simulate Position:</label>
+            <button class="sim-btn" data-pos="inside">🟢 Inside Zone</button>
+            <button class="sim-btn" data-pos="outside">🔴 Outside Zone</button>
+          </div>
+        </div>
+
+        <div id="status-card" class="status-card outside">
+          <span id="status-text">Status: OUTSIDE BOUNDARY</span>
+        </div>
+
+        <button id="btn-clockin" class="btn-primary" disabled>Clock In</button>
+        <button id="btn-clockout" class="btn-danger hidden">Clock Out</button>
+
+        <div class="log-section">
+          <h3>Today's Sessions</h3>
+          <div id="session-log"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN PANEL -->
+      <div id="screen-admin" class="screen">
+        <header>
+          <span class="logo-sm">📍 GeoTrack</span>
+          <span>Admin Panel</span>
+          <button id="btn-admin-logout" class="btn-ghost">Logout</button>
+        </header>
+
+        <div class="admin-panel">
+          <div class="admin-header">
+            <h2>Attendance Records</h2>
+            <button id="btn-export" class="btn-secondary">⬇ Export CSV</button>
+          </div>
+          <table id="attendance-table">
+            <thead>
+              <tr><th>Employee</th><th>Clock In</th><th>Clock Out</th><th>Duration</th></tr>
+            </thead>
+            <tbody id="attendance-body"></tbody>
+          </table>
+          <p id="no-records" class="no-records hidden">No records yet.</p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GeoTrack — Installation Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
+
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --border: #1f2d45;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0d1117;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    line-height: 1.7;
+    font-size: 15px;
+    min-height: 100vh;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.3);
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  h1 {
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff 0%, #38bdf8 60%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 32px; }
+
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .step::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  .step:hover::before { opacity: 1; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0a0f1e;
+    font-weight: 800;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .step-os {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .os-tag {
+    font-size: 10px;
+    letter-spacing: .5px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .step-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+  p { color: #94a3b8; font-size: 14px; line-height: 1.8; }
+  p strong { color: var(--text); font-weight: 600; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .code-label {
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--border);
+    padding: 7px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .code-label span { color: var(--accent); }
+
+  pre {
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    overflow-x: auto;
+  }
+
+  code.inline {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--accent);
+  }
+
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .callout.tip   { background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); color: #86efac; }
+  .callout.warn  { background: rgba(251,191,36,0.08);  border: 1px solid rgba(251,191,36,0.2);  color: #fde68a; }
+  .callout.info  { background: rgba(56,189,248,0.08);  border: 1px solid rgba(56,189,248,0.2);  color: #bae6fd; }
+
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* DOWNLOAD LINK */
+  .dl-link { display: flex; align-items: center; gap: 12px; background: rgba(56,189,248,0.06); border: 1px dashed rgba(56,189,248,0.3); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+  .dl-link span { opacity: .6; font-size: 18px; }
+
+  /* CREDENTIALS TABLE */
+  .creds {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .creds table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .creds th { background: rgba(255,255,255,0.04); padding: 10px 14px; text-align: left; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; font-weight: 600; border-bottom: 1px solid var(--border); }
+  .creds td { padding: 10px 14px; border-bottom: 1px solid rgba(31,45,69,0.5); font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .creds tr:last-child td { border-bottom: none; }
+  .creds .role-admin { color: var(--accent2); }
+  .creds .role-emp   { color: var(--green); }
+
+  /* SUCCESS BANNER */
+  .success-banner {
+    background: linear-gradient(135deg, rgba(52,211,153,0.1), rgba(56,189,248,0.1));
+    border: 1px solid rgba(52,211,153,0.25);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    margin-top: 40px;
+  }
+  .success-banner .icon { font-size: 40px; margin-bottom: 12px; }
+  .success-banner h3 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  .success-banner p { color: #94a3b8; font-size: 14px; max-width: 400px; margin: 0 auto; }
+
+  /* SECTION DIVIDER */
+  .divider { display: flex; align-items: center; gap: 16px; margin: 8px 0; }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-text { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="badge">📍 Installation Guide</div>
+    <h1>GeoTrack Setup</h1>
+    <p class="subtitle">Step-by-step instructions to get the app running on your computer — no prior experience needed.</p>
+  </div>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Install Node.js</div>
+        <div class="step-os">
+          <span class="os-tag">Windows</span>
+          <span class="os-tag">Mac</span>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Node.js is the engine that runs the development server. You only need to install this once — it stays on your computer for future projects too.</p>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <span>Go to <strong>https://nodejs.org</strong> and click the big green button that says <strong>"LTS"</strong> (Long Term Support). Download and run the installer — click Next on every screen and accept all the defaults.</span>
+        </div>
+
+        <p><strong>To verify it worked:</strong> After installing, open a Terminal (Mac) or Command Prompt (Windows) and type:</p>
+
+        <div class="code-block">
+          <div class="code-label">💻 <span>Terminal / Command Prompt</span></div>
+          <pre>node --version</pre>
+        </div>
+
+        <p>You should see something like <code class="inline">v20.x.x</code>. If you do, Node.js is ready.</p>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <span><strong>How to open a terminal on Windows:</strong> Press <code class="inline">Windows Key + R</code>, type <code class="inline">cmd</code>, press Enter. On Mac: press <code class="inline">Cmd + Space</code>, type <code class="inline">Terminal</code>, press Enter.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Install VS Code (Code Editor)</div>
+        <div class="step-os">
+          <span class="os-tag">Windows</span>
+          <span class="os-tag">Mac</span>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>VS Code is a free code editor made by Microsoft. You'll use it to view the project files — think of it like Microsoft Word, but for code.</p>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <span>Go to <strong>https://code.visualstudio.com</strong>, click <strong>Download for Windows</strong> (or Mac). Run the installer and accept all defaults.</span>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <span>During installation on Windows, check the box that says <strong>"Add to PATH"</strong> if you see it — this makes it easier to use later.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title">Unzip the Project Files</div>
+      </div>
+      <div class="step-body">
+        <p>You should have a file called <code class="inline">geotrack-app.zip</code>. Follow these steps:</p>
+
+        <div class="callout info">
+          <span class="callout-icon">📁</span>
+          <span>
+            <strong>Windows:</strong> Right-click <code class="inline">geotrack-app.zip</code> → <em>"Extract All…"</em> → choose your Desktop or Documents folder → click Extract.<br/><br/>
+            <strong>Mac:</strong> Double-click the zip file — it will automatically create a folder next to it.
+          </span>
+        </div>
+
+        <p>You should end up with a folder containing these 4 files:</p>
+
+        <div class="code-block">
+          <div class="code-label">📂 <span>geotrack-app folder</span></div>
+          <pre>index.html
+main.js
+style.css
+package.json</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div class="step-title">Open the Folder in VS Code</div>
+      </div>
+      <div class="step-body">
+        <p>Open VS Code, then go to <strong>File → Open Folder…</strong> and select the <code class="inline">geotrack-app</code> folder you just unzipped. You'll see the 4 files listed in the left sidebar.</p>
+
+        <p>Now open the built-in terminal inside VS Code: go to <strong>Terminal → New Terminal</strong> from the top menu. A panel will appear at the bottom of VS Code — this is where you'll type commands.</p>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <span>The terminal in VS Code automatically starts inside your project folder, so you don't need to navigate anywhere — just type the commands directly.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">5</div>
+        <div class="step-title">Install Project Dependencies</div>
+      </div>
+      <div class="step-body">
+        <p>In the VS Code terminal, type this command and press <code class="inline">Enter</code>:</p>
+
+        <div class="code-block">
+          <div class="code-label">💻 <span>VS Code Terminal</span></div>
+          <pre>npm install</pre>
+        </div>
+
+        <p>This downloads Vite (the development tool) into a <code class="inline">node_modules</code> folder. It only takes a few seconds and you only need to do this once per project.</p>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <span>You may see some yellow warning lines — that's normal and fine. The only problem is a red line that says <strong>ERROR</strong>. If that happens, make sure you opened the correct folder (the one with <code class="inline">package.json</code> inside it).</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">6</div>
+        <div class="step-title">Start the App</div>
+      </div>
+      <div class="step-body">
+        <p>In the same terminal, type this and press <code class="inline">Enter</code>:</p>
+
+        <div class="code-block">
+          <div class="code-label">💻 <span>VS Code Terminal</span></div>
+          <pre>npm run dev</pre>
+        </div>
+
+        <p>You'll see output that looks like this:</p>
+
+        <div class="code-block">
+          <div class="code-label">📋 <span>Expected output</span></div>
+          <pre>  VITE v8.x.x  ready in 200ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose</pre>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <span>Open your web browser (Chrome, Edge, or Firefox) and go to <strong>http://localhost:5173</strong> — the GeoTrack app will load. Keep the VS Code terminal running while you use the app.</span>
+        </div>
+
+        <p>To <strong>stop the server</strong> when you're done, click inside the terminal and press <code class="inline">Ctrl + C</code>.</p>
+      </div>
+    </div>
+
+    <!-- STEP 7 — LOGIN -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">7</div>
+        <div class="step-title">Log In & Test the App</div>
+      </div>
+      <div class="step-body">
+        <p>Use these demo credentials to log in:</p>
+
+        <div class="creds">
+          <table>
+            <thead>
+              <tr><th>Role</th><th>Email</th><th>Password</th><th>Access</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="role-emp">🟢 Employee</td>
+                <td>user@geo.com</td>
+                <td>user123</td>
+                <td>Dashboard, Clock In/Out</td>
+              </tr>
+              <tr>
+                <td class="role-admin">🔵 Admin</td>
+                <td>admin@geo.com</td>
+                <td>admin123</td>
+                <td>All records, CSV Export</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>On the <strong>Employee dashboard</strong>, use the <em>"Simulate Position"</em> buttons to move inside or outside the geofence zone — the Clock In button only activates when you're inside the boundary.</p>
+
+        <div class="callout info">
+          <span class="callout-icon">📦</span>
+          <span>All data (sessions, records) is stored in your browser's <strong>localStorage</strong> — it persists between page refreshes but stays private to your machine. To clear all data, open browser DevTools (<code class="inline">F12</code>) → Application → Local Storage → right-click and Clear.</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /steps -->
+
+  <div class="success-banner">
+    <div class="icon">🎉</div>
+    <h3>You're all set!</h3>
+    <p>The app is running locally on your machine. Every change you make to the code files will instantly refresh in the browser.</p>
+  </div>
+
+</div>
+</body>
+</html>
